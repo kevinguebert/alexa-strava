@@ -1,5 +1,5 @@
-#Alexa & Jenkins
+#Alexa & Sailing
 
-Start of an Alexa app to control a Jenkins CI Server. 
+As an avid sailor, maybe it would be cool to get some sailing information through Alexa. 
 
-The npm module 'jenkins-api' makes it reaaalll easy
+Looking for wind speed in particular - using Darksky
