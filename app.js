@@ -2,11 +2,9 @@ var express    = require("express");
 var alexa      = require("alexa-app");
 var http       = require('http');
 var dotenv     = require('dotenv');
-var bodyParser = require("body-parser");
 var moment     = require('moment');
 var convert    = require('convert-units')
 var strava     = require('strava-v3');
-var env        = require('node-env-file');
 
 var app = express();
 var PORT = process.env.port || 5000;
@@ -15,10 +13,6 @@ var PORT = process.env.port || 5000;
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 dotenv.load({path: '.env'});
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.set("view engine", "ejs");
 
 var alexaApp = new alexa.app("strava");
 alexaApp.launch(function(request, response) {
@@ -41,6 +35,9 @@ alexaApp.intent("GetLastestActivity", function(request, response) {
             response.say(output);
         } else {
             var activity = activities[0];
+
+            // request.session.sessionAttributes = { "athlete": activities[0].id};
+            // session.set({"athlete": activities[0].id});
             /* Response:
             { id: 894557721,
             resource_state: 2,
@@ -96,10 +93,7 @@ alexaApp.intent("GetLastestActivity", function(request, response) {
             output = "Name: " + activity.name+ ".";
 
             //Last activity date
-            var aDate = new Date(activity.start_date_local).toString();
-                aDate = dateFormat(aDate, "dddd, mmmm dS, yyyy");
-            output += " Date: " + aDate + ". ";
-
+            output += " Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm, dS, yyyy")+ ". ";
 
             if(activity.type) output += " Type: " + activity.type + ".";
 
@@ -107,34 +101,24 @@ alexaApp.intent("GetLastestActivity", function(request, response) {
 
             if(activity.average_speed) output += " Average pace: " + timeToHuman(convert(truncate((1609.344 / activity.average_speed), 3)).from('s').to('ms')) + " per mile.";
 
-            // if(activity.max_speed !== null) {
-            //   output += " Fastest pace: " + timeToHuman(convert(truncate((1609.344 / activity.max_speed), 3)).from('s').to('ms')) + " per mile.";
-            // }
-
-            // console.log(activity.average_speed * (2.2369));
-            //
-            // if(activity.average_cadence !== null) {
-            //   output += " Average Cadence: " + activity.average_cadence + " steps per minute.";
-            // }
-
             // Activity Distance (in meters)
-            if(activity.distance) output += " Distance: " + truncate(convert(activity.distance).from("m").to("mi"), 3) + " miles.";
+            if(activity.distance) output += " Distance: " + truncate(convert(activity.distance).from("m").to("mi"), 2) + " miles.";
 
             // Activity Time (elapsed, in seconds)
-            if(activity.elapsed_time) output += " Total time: " + timeToHuman(convert(activity.elapsed_time.from("s").to("ms"))) + ".";
+            if(activity.elapsed_time) output += " Total time: " + timeToHuman(convert(activity.elapsed_time).from("s").to("ms")) + ".";
 
-            output += " Nice job!";
-
+            output += " " + randomCongrats();
 
             response.say(output);
+            response.card({
+              type: "Simple",
+              title: activity.name,
+              content: output
+            });
             return response.send();
         }
     });
     return false;
-});
-
-alexaApp.intent("GetGoalStatus", function(request, response) {
-    // Retrieve weather information from coordinates (Sydney, Australia)
 });
 
 alexaApp.express(app, "/echo/");
@@ -291,4 +275,9 @@ function timeToHuman (milliseconds) {
   }
   elapsed += milliseconds.getUTCSeconds() + " seconds";
   return elapsed;
+}
+
+function randomCongrats() {
+  var congrats = ["Congratulations", "Nice Job!", "Good work!", "Kudos!", "Bravo", "That's great", "Nice going!", "Good effor!", "Keep up the good work!"];
+  return congrats[Math.floor(Math.random() * congrats.length)];
 }
