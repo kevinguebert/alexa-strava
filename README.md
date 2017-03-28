@@ -161,3 +161,64 @@ Once it is downloaded, unzip the folder, and **copy and paste** the file called 
 INSERT STEP 10 PICTURE
 
 11. Now that we have `nrok` downloaded, we can work on getting the web server started and tunneling into localhost.
+
+12. To do that, open up another terminal window and make sure you are in your project folder. Go ahead and run:
+
+    `./ngrok http 5000`
+
+    What that will do is start up an ngrok tunneling instance on port 5000. It should look something like the image below. **Note:** if you ever close or accidentally stop this terminal window, you will get a new url for your tunnel.
+
+    INSERT NROK IMAGE
+
+13. With our ngrok server running, we are good to go for this first section! Next up is setting up the Alexa app configuration in the Developer Portal and then getting the Strava keys.
+
+#### Amazon Alexa Configuration
+
+For this section, we are going to *quickly* walk through the steps of getting your app up and running. If you ever get lost, refer back to my first tutorial [Build Your First Alexa App](http://www.kevinguebert.com/build-your-first-alexa-app/) for more detailed steps and some more images. The app creation is the same across all platforms.
+
+1. Signup and/or sign in to your developer account at the [Amazon Developer Services](https://developer.amazon.com)
+
+2. Click on "Alexa" in the top, and then click on "Get Started" for Alexa Skills Kit.
+
+INSERT IMAGE HERE
+
+3. Click on "Add a New Skill" on the following page. We are going to be doing the following things:
+
+    - **Skill Type:** Custom Interaction Model
+    - **Name:** Strava
+    - **Invocation Name**: Strava
+
+4. With those fields filled out, go ahead and click on "Save". **Note** - if you get problems with using the word *Strava* as your name, it's because it's already taken. Name it however you like.
+
+5. We are going to skip the **Interaction Model* section for now and come back to that later.
+
+6. For **Configuration**, we are going to do the following:
+
+    - **Service Endpoint Type:** HTTPS
+    - **Account Linking:** No (we will do that in a later tutorial)
+
+7. When you click on **HTTPS** for your endpoint, a check box will appear.
+
+    - **Geographical Region:** North America
+
+8. In the text box that appears below North America, what you are going to do is grab the `ngrok` url from above and copy and paste that in there.
+
+INSERT IMAGE OF NGROK
+
+9. **BUT WAIT** We aren't quite done yet - in our code from above there are two special things we did.
+
+    Remember this:
+    ```
+    var alexaApp = new alexa.app("strava");
+        alexaApp.express(app, "/echo/");
+    ```
+
+    What this did is it created a new `alexaApp` at the endpoint `/echo/strava`. If you want, you can remove the `/echo/` but the `strava` is required.
+
+10. At the end of the `ngrok` url, make sure you add in
+
+    `ngrok_url` + `/echo/strava`
+
+11. Go ahead and click "Next" and you'll be taken to the **SSL Certificate** page. Since we are using `ngrok` and having it locally click the middle radio button: *My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority*. **Note** this is only for development and we will clean this up later.
+
+12. Alright sounds good! Now onto setting up Strava and getting a developer account!
