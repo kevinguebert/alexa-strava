@@ -73,7 +73,7 @@ Well I think that's everything on the list, let's get started!
 
   `npm init`
 
-  INSERT STEP 2 PICTURE
+  ![NPM init](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step%202.png)
 
 3. With our project created, let's install the dependencies we need for this project.
 
@@ -158,7 +158,7 @@ Well I think that's everything on the list, let's get started!
 
 Once it is downloaded, unzip the folder, and **copy and paste** the file called `ngrok` into your **alexa-strava directory.** Your directory should now look like this:
 
-INSERT STEP 10 PICTURE
+![Folder Structure](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step-10.png)
 
 11. Now that we have `nrok` downloaded, we can work on getting the web server started and tunneling into localhost.
 
@@ -168,7 +168,7 @@ INSERT STEP 10 PICTURE
 
     What that will do is start up an ngrok tunneling instance on port 5000. It should look something like the image below. **Note:** if you ever close or accidentally stop this terminal window, you will get a new url for your tunnel.
 
-    INSERT NROK IMAGE
+    ![ngrok](https://github.com/kevinguebert/alexa-strava/blob/master/img/ngrok.png?raw=true)
 
 13. With our ngrok server running, we are good to go for this first section! Next up is setting up the Alexa app configuration in the Developer Portal and then getting the Strava keys.
 
@@ -203,7 +203,7 @@ INSERT IMAGE HERE
 
 8. In the text box that appears below North America, what you are going to do is grab the `ngrok` url from above and copy and paste that in there.
 
-INSERT IMAGE OF NGROK
+INSERT IMAGE OF NGROK URL PASTE
 
 9. **BUT WAIT** We aren't quite done yet - in our code from above there are two special things we did.
 
@@ -231,7 +231,7 @@ Now that out base application is up and running, it's time to get situated with 
 
 2. Under "Get Started" click on "Manage Your App"
 
-INSERT IMAGE
+![Welcome to Strava](https://github.com/kevinguebert/alexa-strava/blob/master/img/Strava-Developer-Dashboard.png?raw=true)
 
 3. On the "Create Application" page, let's go ahead and fill out some basic data for out app.
 
@@ -240,17 +240,17 @@ INSERT IMAGE
   - **Application Description:**: Strava on Alexa
   - **Authorization Callback Domain:** For now, we are going to use the same website as above: [kevinguebert.com](http://www.kevinguebert.com)
 
-INSERT IMAGE
+![Creation](https://github.com/kevinguebert/alexa-strava/blob/master/img/Strava-Create.png?raw=true)
 
 4. Check the box and click submit, you should be good to go! Your application should page should look something like this:
 
-INSERT IMAGE
+![Application](https://github.com/kevinguebert/alexa-strava/blob/master/img/Strava-Application.png?raw=true)
 
 5. With out application created, we are focused on two key resources here.
 
   - Client Secret
   - Access Token
 
-  INSERT IMAGE
+![Tokens](https://github.com/kevinguebert/alexa-strava/blob/master/img/Strava-Tokens.png?raw=true)
 
 6. But for now, we are good to go in setting up our application. Let's move on to the next steps and try and get it connected in Alexa!
