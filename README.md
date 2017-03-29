@@ -4,7 +4,20 @@ Hello and Welcome! In this tutorial series we are going to walk through the step
 
 ### Outline
 
-[TOC]
+1. Introduction to Strava
+  1. What is Strava
+2. Strava + Alexa
+  1. What are we building
+3. Prerequisites
+4. Setup
+  1. Local Setup
+  2. Amazon Alexa Configuration
+5. Access to Strava
+6. Defining Intents & Actions
+7. Sending Requests
+8. Returning Responses
+9. Wrap up
+
 
 ### Strava
 
@@ -264,3 +277,4 @@ Seems pretty simple right? Don't worry about that "Some other path" for now, we 
   - Alexa exits Strava
 
 That's 5 steps. That's all we are doing today. 5 simple steps...that are going to be some work!
+
