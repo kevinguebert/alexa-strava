@@ -4,7 +4,20 @@ Hello and Welcome! In this tutorial series we are going to walk through the step
 
 ### Outline
 
-[TOC]
+1. Introduction to Strava
+  - What is Strava
+2. Strava + Alexa
+  - What are we building
+3. Prerequisites
+4. Setup
+  - Lcoal Setup
+  - Amazon Alexa Configuration
+6. Access to Strava
+7. Defining Intents & Actions
+7. Sending Requests
+9. Returning Responses
+10. Wrap up
+
 
 ### Strava
 
@@ -69,7 +82,7 @@ Well I think that's everything on the list, let's get started!
   Node packages we will be using:
 
   INSERT NPM LINKS
-  - alexa-app
+    - alexa-app
     - express
     - dotenv
     - convert-units
@@ -204,7 +217,7 @@ For this section, we are going to *quickly* walk through the steps of getting yo
 
 10. At the end of the `ngrok` url, make sure you add in
 
-   `ngrok_url` + `/echo/strava`
+    `ngrok_url` + `/echo/strava`
 
 11. Go ahead and click "Next" and you'll be taken to the **SSL Certificate** page. Since we are using `ngrok` and having it locally click the middle radio button: *My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority*. **Note** this is only for development and we will clean this up later.
 
@@ -257,7 +270,7 @@ INSERT IMAGE OF graph
 
 Seems pretty simple right? Don't worry about that "Some other path" for now, we will get there, but we want to focus on the "Stats on Last Activity" path. Here's how it will kind of go.
 
-- A user opens up Strava on Alexa.
+  - A user opens up Strava on Alexa.
   - Alexa asks what the user would like to do.
   - User wants to know about their last activity
   - Alexa fetches that information and voices it in a clean manner
