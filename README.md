@@ -105,9 +105,9 @@ Well I think that's everything on the list, let's get started!
 
 6. If we follow the starter installation of `alexa-app`, we know we now need to start an express server and get it up and running.
 
-  ```
-  var app = express();
-  ```
+    ```
+    var app = express();
+    ```
 
 7. Lastly, to officially initialize our Alexa app, we need to:
 
@@ -115,12 +115,12 @@ Well I think that's everything on the list, let's get started!
   - Share where Alexa will live (what endpoint)
   - Start the server
 
-  ```
-  var alexaApp = new alexa.app("strava");
-      alexaApp.express(app, "/echo/");
+    ```
+    var alexaApp = new alexa.app("strava");
+        alexaApp.express(app, "/echo/");
 
-  app.listen(process.env.port || 5000);
-  ```
+    app.listen(process.env.port || 5000);
+    ```
 
 8. If we take a look at our code now, we will *almost* have all of what we need to get started, but we need to initialize Alexa to listen for that "welcome" intent to make it official. So the last part of the code for this section is just that:
 
@@ -156,9 +156,9 @@ Well I think that's everything on the list, let's get started!
 
 10. I wish I could say we were done in the terminal, but not quite yet. In order to get our express server up and running for Alexa to talk to, we need to 1) start it up 2) have a url for it to hit. If you read my last tutorial, you would know that my favorite tool for that is `ngrok`. `ngrok` is a local tunneling service that provides `https` urls for you to test with that come from localhost. To download `nrgok` [visit the website](https://ngrok.com/) and download the right one for your operating system.
 
-Once it is downloaded, unzip the folder, and **copy and paste** the file called `ngrok` into your **alexa-strava directory.** Your directory should now look like this:
+  Once it is downloaded, unzip the folder, and **copy and paste** the file called `ngrok` into your **alexa-strava directory.** Your directory should now look like this:
 
-![Folder Structure](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step-10.png)
+  ![Folder Structure](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step-10.png)
 
 11. Now that we have `nrok` downloaded, we can work on getting the web server started and tunneling into localhost.
 
@@ -208,10 +208,10 @@ For this section, we are going to *quickly* walk through the steps of getting yo
 9. **BUT WAIT** We aren't quite done yet - in our code from above there are two special things we did.
 
     Remember this:
-    ```
-    var alexaApp = new alexa.app("strava");
-        alexaApp.express(app, "/echo/");
-    ```
+      ```
+      var alexaApp = new alexa.app("strava");
+          alexaApp.express(app, "/echo/");
+      ```
 
     What this did is it created a new `alexaApp` at the endpoint `/echo/strava`. If you want, you can remove the `/echo/` but the `strava` is required.
 
@@ -261,8 +261,7 @@ Finally. We have done all the setup and configurations for our application, it t
 
 Now it's time to **actually figure out what we want to do.** Strava provides a great API for us to interact with but we need to make sure we utilize it in the best possible way while also following good Voice Design guidelines.
 
-
-##### Game plan
+##### Game Plan
 
 When a user opens up Strava on Alexa, we would like the user to hear about their latest activity they performed with all the data elements associated with it. What I've done for you is laid out the simple path that we are going to walk through today. Check out the graph below:
 
@@ -315,8 +314,8 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 
 1. To set these up, head on back to the Amazon Developer site where we setup our Alexa skill and go to the "Interaction Model" section. We are going to copy and past the above Intents and Utterances into the respective places.
 
-![Intents](https://github.com/kevinguebert/alexa-strava/blob/master/img/intents.png?raw=true)
-![Utterances](https://github.com/kevinguebert/alexa-strava/blob/master/img/utterances.png?raw=true)
+  ![Intents](https://github.com/kevinguebert/alexa-strava/blob/master/img/intents.png?raw=true)
+  ![Utterances](https://github.com/kevinguebert/alexa-strava/blob/master/img/utterances.png?raw=true)
 
 2. Once that is done, go ahead and click "Save"
 
