@@ -50,7 +50,7 @@ First off, welcome! With this tutorial I hope to walk you through all the steps 
 
 If you've never built an Alexa app before or are wondering where to get started, check out the [Amazon Developer Portal](https://developer.amazon.com/alexa) for a suite of resources to get you started. If you would like to follow a base tutorial for beginners, check out my other tutorial [Build Your First Alexa App](http://www.kevinguebert.com/build-your-first-alexa-app/). Please note though, that tutorial is using Python but is still a good introduction.
 
-[Build Your First Alexa App]![]
+[![Tutorial](https://github.com/kevinguebert/alexa-strava/blob/master/img/tutorial.png?raw=True)](http://www.kevinguebert.com/build-your-first-alexa-app/)
 
 Other things of note:
 
