@@ -86,6 +86,7 @@ Well I think that's everything on the list, let's get started!
     - express
     - dotenv
     - convert-units
+    - body-parser
     - moment
 
     `npm install --save alexa-app express dotenv convert-units moment`
@@ -97,6 +98,7 @@ Well I think that's everything on the list, let's get started!
     ```
     var express    = require("express");
     var alexa      = require("alexa-app");
+    var bodyParser = require("body-parser");
     var http       = require('http');
     var dotenv     = require('dotenv');
     var moment     = require('moment');
@@ -107,6 +109,9 @@ Well I think that's everything on the list, let's get started!
 
     ```
     var app = express();
+    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.json());
+    app.set("view engine", "ejs");
     ```
 
 7. Lastly, to officially initialize our Alexa app, we need to:
@@ -118,6 +123,7 @@ Well I think that's everything on the list, let's get started!
     ```
     var alexaApp = new alexa.app("strava");
         alexaApp.express(app, "/echo/");
+
 
     app.listen(process.env.port || 5000);
     ```
@@ -142,6 +148,9 @@ Well I think that's everything on the list, let's get started!
     var convert    = require('convert-units')
 
     var app = express();
+    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.json());
+    app.set("view engine", "ejs");
 
     alexaApp.launch(function(request, response) {
         response.say("Hello, welcome to Strava");
@@ -320,3 +329,157 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 2. Once that is done, go ahead and click "Save"
 
 3. Woo! All done with this section. Go grab some water and next we will work on sending requests now to Strava in our Alexa application!
+
+### Sending Requests
+
+1. To start sending requests to Strava we need to do 2 things first.
+
+    - Authorize ourselves to be able to send requests
+    - Install a handy-dandy npm package to help us out in sending these requests
+
+    Let's start with authorization
+
+2. Strava uses **oauth** as it's authorization resource. We will be going into what that means and how to implement it into our Alexa app in a following tutorial, but today, we still need to authorize our Strava account to be able to be accessed by our Strava application.
+
+    What does that mean? Well you know how whenever you go and "Sign in with Facebook" on some websites, it redirects you temporarily to Facebook where you click "Allow" for that application? That's what we are doing, but in a simpler way to get started.
+
+3. To authorize our account to for our application to use, we need a couple things:
+
+    - A personal Strava account (I hope you have one by now)
+    - Our Application Client ID
+    - Our Application Redirect URL
+
+    These can all be found on that "Manage Your Application" page in the Strava Developer Lab.
+
+4. With those pieces of information on hand, we are going to craft a url. It should look something like this:
+
+    `https://www.strava.com/oauth/authorize?client_id=CLIENTID&response_type=code&redirect_uri=REDIRECTURL&scope=public&state=mystate&approval_prompt=force#_=_`
+
+    **Please Note:** Make sure to change the CLIENTID and REDIRECTURL to be the ones in your application!
+
+5. With that URL created, open up your favorite web browser and copy and paste that in there. You should get something that looks like this:
+
+    INSERT IMAGE OF AUTH
+
+6. Go ahead and click "Authorize" and it will:
+
+    - Authorize your account
+    - Redirect you to your REDIRECT URL
+
+7. Alright perfect! Our profile and our application are now in sync.
+
+8. Next up, head back over to your favorite text editor. We are going to work on using our Client Secret and Client Access Tokens to send requests.
+
+9. In the base root of your folder, create a file called `.env`. If you recall from wayyyy back at the beginning, we are using a package called `dotenv` which will hold our keys to our application. Git does not automatically commit these files so they will never get accidentally published on Github or anything!
+
+10. In the `.env` file, we will be adding three lines:
+
+    ```
+    STRAVA_ACCESS_TOKEN=INSERT_YOUR_TOKEN_HERE
+    STRAVA_CLIENT_ID=15134
+    STRAVA_REDIRECT_URI=kevinguebert.com
+    ```
+
+11. With our tokens saved and set, we now need to load them into our application. Right after `var app = express();` go ahead and add:
+
+    ```
+    var app = express();
+    dotenv.load({path: '.env'});
+    ```
+
+    This loads our environment variables into the app for us to use.
+
+12. Next up, we are going to install another NPM package called `node-strava-v3` - a node package wrapper for the Strava API. I would highly recommend checking out some of the documentation found on Github to get a better understanding of all that it can do!
+[Learn more about node-strava-v3](https://github.com/UnbounDev/node-strava-v3)
+
+    `npm install --save node-strava-v3`
+
+13. Make sure to add it to the top of your file with:
+
+    `var strava     = require('strava-v3');`
+
+14. With those two things added (environment variables and npm package) - we can work on sending a request out to Strava!
+
+15. Right below our `alexaApp.launch` code, we are going to add in our `GetLastestActivity` request!
+
+    ```
+    alexaApp.intent("GetLastestActivity", function(request, response) { });
+    ```
+
+16. What we want to do in here is:
+
+    - Send a request out to Strava
+    - Return the response
+    - Handle error scenario
+    - Handle success scenario
+    - Have Alexa respond accordingly
+
+17. If we look at the documentation for `node-strava-v3` we see there is a request for `strava.athlete.listActivities` which return a list of activities for a user. Exactly what we need! We are going to add a few parameters though:
+
+    - We only need our **last** activity, so we are going to limit it to **1 page, 1 per page**
+
+19. With our parameters now, we can now craft our request to Strava:
+
+    ```
+    alexaApp.intent("GetLastestActivity", function(request, response) {
+      strava.athlete.listActivities({
+          page: 1,
+          per_page: 1
+        }, function(err, activities) {
+          //Handle success and errors
+      });
+    });
+    ```
+
+    Let's review the above code real quick.
+
+      - We send a request to Alexa with the intent `GetLastestActivity`
+      - Our code then handles this request which in turns sends a request to Strava for Athlete ID: 9503898 for 1 activity on one page
+      - We have a completion function that is called when finished that has `err` and `activities` as parameters
+
+20. With this knowledge of `err` and `activities` we can move forward with returning a response.
+
+21. As good software developers that we are, let's handle the `err` situation first. Well, so let's think about what the error scenarios can be.
+
+    - Our request fails
+    - The Athlete doesn't exist
+    - The Athlete does not have any activities
+
+    We need to think of a clean way to handle all these scenarios. Right now, we are at the top level of errors. What that means is that we are only going to encouter the first two.
+
+    But if we think about it more, at this point in the tutorial, we have already authorized our account with this application, so unless that failed way back a couple steps, we can't hit the "athlete doesn't exist at this point" error (Please note, we will come back to it at some point! Can't just skip error handling ;))
+
+    Okay so that means our request failed. What would be the best way to handle that? Well, let's keep it simple for now. Apologize for the problem and ask the user to try again.
+
+22. Let's code it out!
+
+    ```
+      if (err) {
+        response.say("A problem with the request has occured. We apologize for the problem. Please try again later.");
+      }
+    ```
+
+23. Now you may be looking at thinking "What is `reponse.say`??" Well, that's a little handy-dandy helper function from the `alexa-app` package that sends a response back to our Alexa device and says that! Pretty nifty right!
+
+24. Okay, one error scenario down. one to go. So what happens if the request succeeds but no data is returned? Well that most likely means that there are no activities associated with that user (aka you!). We want to handle this scenario.
+
+25. If there are not activities associated with the athlete, let's go ahead and tell them "no activities" but also provide them with a little push to get out the door!
+
+    ```
+    if (activities.length === 0) {
+        output = "I'm sorry, I was unable to find any activities for this athlete. Today's a good day to create one! Get out there and record your first activity!";
+        response.say(output);
+    }
+    ```
+
+26. No moving onto the success scenario with data: the success response from Strava under the parameter `activities` that has activities will look something like this:
+
+      ```
+      [
+        { id: 894557721, resource_state: 2, external_id: 'garmin_push_1612875533', upload_id: 993065686, athlete: { id: 9503898, resource_state: 1 }, name: 'Treadmills are tough', distance: 5129.4, moving_time: 2413, elapsed_time: 2413, total_elevation_gain: 0, type: 'Run', start_date: '2017-03-10T13:15:17Z', start_date_local: '2017-03-10T08:15:17Z', timezone: '(GMT-05:00) America/New_York', utc_offset: -18000, start_latlng: null, end_latlng: null, location_city: null, location_state: null, location_country: 'United States', start_latitude: null, start_longitude: null, achievement_count: 0, kudos_count: 11, comment_count: 1, athlete_count: 1, photo_count: 0, map: { id: 'a894557721', summary_polyline: null, resource_state: 2 }, trainer: true, commute: false, manual: false, private: false, flagged: false, gear_id: 'g1825577', average_speed: 2.126, max_speed: 2.9, average_cadence: 78.8, has_heartrate: true, average_heartrate: 155, max_heartrate: 186, pr_count: 0, total_photo_count: 0, has_kudoed: false, workout_type: 0, suffer_score: 66 }
+      ]
+      ```
+
+      The response is an `array` with one value in it (remember, we only asked for one!)
+
+  27. Okay we have data now! Woo! But wow, look at all that data we have! For one activity, we have a fair amount of data associated with it. Now we just need to make sure we display (voice) it in a meaningful manner. 

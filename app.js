@@ -2,17 +2,22 @@ var express    = require("express");
 var alexa      = require("alexa-app");
 var http       = require('http');
 var dotenv     = require('dotenv');
+var bodyParser = require("body-parser");
 var moment     = require('moment');
 var convert    = require('convert-units')
 var strava     = require('strava-v3');
+// var env        = require('node-env-file');
 
 var app = express();
-var PORT = process.env.port || 5000;
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.set("view engine", "ejs");
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 dotenv.load({path: '.env'});
+
 
 var alexaApp = new alexa.app("strava");
 alexaApp.launch(function(request, response) {
@@ -23,11 +28,15 @@ alexaApp.launch(function(request, response) {
 alexaApp.intent("GetLastestActivity", function(request, response) {
     //Send request to strava
     strava.athlete.listActivities({
-        id: 9503898,
         page: 1,
         per_page: 1
     }, function(err, activities) {
+        if (err) {
+          response.say("A problem with the request has occured. We apologize for the problem. Please try again later.")
+        }
         var output = "";
+        console.log(err);
+        console.log(activities);
         if (activities.length === 0) {
             //No activities, have an error
             // TODO: better error
@@ -120,10 +129,9 @@ alexaApp.intent("GetLastestActivity", function(request, response) {
     });
     return false;
 });
-
 alexaApp.express(app, "/echo/");
-app.listen(PORT);
-console.log("Listening on port " + PORT);
+
+app.listen(process.env.port || 5000);
 
 /*
  * Date Format 1.2.3
