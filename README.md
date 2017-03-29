@@ -5,13 +5,13 @@ Hello and Welcome! In this tutorial series we are going to walk through the step
 ### Outline
 
 1. Introduction to Strava
-  - What is Strava
+    - What is Strava
 2. Strava + Alexa
-  - What are we building
+    - What are we building
 3. Prerequisites
 4. Setup
-  - Local Setup
-  - Amazon Alexa Configuration
+    - Local Setup
+    - Amazon Alexa Configuration
 5. Access to Strava
 6. Defining Intents & Utterances
 7. Sending Requests
