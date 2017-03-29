@@ -67,28 +67,28 @@ Well I think that's everything on the list, let's get started!
 
 1. Step one in every tutorial, let's open up the terminal, create a new folder, and move into it..
 
-  `mkdir Desktop/alexa-strava && cd Desktop/alexa-strava`
+    `mkdir Desktop/alexa-strava && cd Desktop/alexa-strava`
 
 2. Init a new project and fill in the required responses. If you hit "enter" through them, it does the default value (i.e. uses index.js for the entry point) which is what we want.
 
-  `npm init`
+    `npm init`
 
-  ![NPM init](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step%202.png)
+    ![NPM init](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step%202.png)
 
 3. With our project created, let's install the dependencies we need for this project.
 
-  **Things to note**: Amazon provides an awesome Node.js SDK called the [Alexa Skills Kit SDK for Node.js](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs). However, I have found that I cannot iterate as quickly with that as it required uploading a zip file to the Amazon Console everytime I make a change and want to test. Because of that, in this tutorial we are going to use [Alexa-App](https://github.com/alexa-js/alexa-app) - a framework for Alexa using Node.js that is not associated with Amazon but does all the same features. It utilizes a webserver (express) to run the app. In the future, we can work on using Amazon's provided resources, but for now, we will stick with Alexa-App
+    **Things to note**: Amazon provides an awesome Node.js SDK called the [Alexa Skills Kit SDK for Node.js](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs). However, I have found that I cannot iterate as quickly with that as it required uploading a zip file to the Amazon Console everytime I make a change and want to test. Because of that, in this tutorial we are going to use [Alexa-App](https://github.com/alexa-js/alexa-app) - a framework for Alexa using Node.js that is not associated with Amazon but does all the same features. It utilizes a webserver (express) to run the app. In the future, we can work on using Amazon's provided resources, but for now, we will stick with Alexa-App
 
-  Node packages we will be using:
+    Node packages we will be using:
 
-  INSERT NPM LINKS
-  - alexa-app
+    INSERT NPM LINKS
+    - alexa-app
     - express
     - dotenv
     - convert-units
     - moment
 
-  `npm install --save alexa-app express dotenv convert-units moment`
+    `npm install --save alexa-app express dotenv convert-units moment`
 
 4. Once that has been completed, let's create our `index.js` file and open it up in Atom.
 
@@ -124,12 +124,12 @@ Well I think that's everything on the list, let's get started!
 
 8. If we take a look at our code now, we will *almost* have all of what we need to get started, but we need to initialize Alexa to listen for that "welcome" intent to make it official. So the last part of the code for this section is just that:
 
-  ```
-  alexaApp.launch(function(request, response) {
-      response.say("Hello, welcome to Strava");
-      response.shouldEndSession(false);
-  });
-  ```
+    ```
+    alexaApp.launch(function(request, response) {
+        response.say("Hello, welcome to Strava");
+        response.shouldEndSession(false);
+    });
+    ```
 
 9. Our file should be very simple and just look like this:
 
@@ -156,9 +156,9 @@ Well I think that's everything on the list, let's get started!
 
 10. I wish I could say we were done in the terminal, but not quite yet. In order to get our express server up and running for Alexa to talk to, we need to 1) start it up 2) have a url for it to hit. If you read my last tutorial, you would know that my favorite tool for that is `ngrok`. `ngrok` is a local tunneling service that provides `https` urls for you to test with that come from localhost. To download `nrgok` [visit the website](https://ngrok.com/) and download the right one for your operating system.
 
-  Once it is downloaded, unzip the folder, and **copy and paste** the file called `ngrok` into your **alexa-strava directory.** Your directory should now look like this:
+    Once it is downloaded, unzip the folder, and **copy and paste** the file called `ngrok` into your **alexa-strava directory.** Your directory should now look like this:
 
-  ![Folder Structure](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step-10.png)
+    ![Folder Structure](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step-10.png)
 
 11. Now that we have `nrok` downloaded, we can work on getting the web server started and tunneling into localhost.
 
