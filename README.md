@@ -5,13 +5,13 @@ Hello and Welcome! In this tutorial series we are going to walk through the step
 ### Outline
 
 1. Introduction to Strava
-  1. What is Strava
+  - What is Strava
 2. Strava + Alexa
-  1. What are we building
+  - What are we building
 3. Prerequisites
 4. Setup
-  1. Local Setup
-  2. Amazon Alexa Configuration
+  - Local Setup
+  - Amazon Alexa Configuration
 5. Access to Strava
 6. Defining Intents & Utterances
 7. Sending Requests
@@ -217,7 +217,7 @@ For this section, we are going to *quickly* walk through the steps of getting yo
 
 10. At the end of the `ngrok` url, make sure you add in
 
-   `ngrok_url` + `/echo/strava`
+     `ngrok_url` + `/echo/strava`
 
 11. Go ahead and click "Next" and you'll be taken to the **SSL Certificate** page. Since we are using `ngrok` and having it locally click the middle radio button: *My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority*. **Note** this is only for development and we will clean this up later.
 
