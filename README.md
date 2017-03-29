@@ -315,7 +315,8 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 
 1. To set these up, head on back to the Amazon Developer site where we setup our Alexa skill and go to the "Interaction Model" section. We are going to copy and past the above Intents and Utterances into the respective places.
 
-INSERT BOTH IMAGES
+![Intents](https://github.com/kevinguebert/alexa-strava/blob/master/img/intents.png?raw=true)
+![Utterances](https://github.com/kevinguebert/alexa-strava/blob/master/img/utterances.png?raw=true)
 
 2. Once that is done, go ahead and click "Save"
 
