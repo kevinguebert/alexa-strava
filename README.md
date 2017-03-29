@@ -29,7 +29,7 @@ Strava is the running/biking/swimming app that I use on a daily basis to record 
 
 > You don't have to run or ride to love our features. Strava works with many of your other favorite sports, like skiing, kiteboarding, crossfit, kayaking, inline skating, rock climbing, surfing, yoga and more. Give it a shot, you'll dig it.
 
-![Strava](https://github.com/kevinguebert/alexa-strava/blob/master/img/Strava.jpg?raw=True)
+![Strava](https://github.com/kevinguebert/alexa-strava/blob/master/img/strava-logo-jpg.jpg?raw=True)
 
 ### Strava + Alexa
 
