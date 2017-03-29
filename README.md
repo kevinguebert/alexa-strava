@@ -180,7 +180,7 @@ For this section, we are going to *quickly* walk through the steps of getting yo
 
 2. Click on "Alexa" in the top, and then click on "Get Started" for Alexa Skills Kit.
 
-INSERT IMAGE HERE
+![New Skill](https://github.com/kevinguebert/alexa-strava/blob/master/img/Add-new-skill.png?raw=true)
 
 3. Click on "Add a New Skill" on the following page. We are going to be doing the following things:
 
@@ -203,7 +203,7 @@ INSERT IMAGE HERE
 
 8. In the text box that appears below North America, what you are going to do is grab the `ngrok` url from above and copy and paste that in there.
 
-INSERT IMAGE OF NGROK URL PASTE
+![Amazon Ngrok](https://github.com/kevinguebert/alexa-strava/blob/master/img/amazon-ngrok.png?raw=true)
 
 9. **BUT WAIT** We aren't quite done yet - in our code from above there are two special things we did.
 
