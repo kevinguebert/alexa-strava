@@ -13,7 +13,7 @@ Hello and Welcome! In this tutorial series we are going to walk through the step
   1. Local Setup
   2. Amazon Alexa Configuration
 5. Access to Strava
-6. Defining Intents & Actions
+6. Defining Intents & Utterances
 7. Sending Requests
 8. Returning Responses
 9. Wrap up
@@ -255,7 +255,7 @@ Now that out base application is up and running, it's time to get situated with 
 
 6. But for now, we are good to go in setting up our application. Let's move on to the next steps and try and get it connected in Alexa!
 
-### Defining Intents and Action
+### Defining Intents and Utterance
 
 Finally. We have done all the setup and configurations for our application, it took a while, but we made it.
 
@@ -266,7 +266,7 @@ Now it's time to **actually figure out what we want to do.** Strava provides a g
 
 When a user opens up Strava on Alexa, we would like the user to hear about their latest activity they performed with all the data elements associated with it. What I've done for you is laid out the simple path that we are going to walk through today. Check out the graph below:
 
-INSERT IMAGE OF graph
+![Graph](https://github.com/kevinguebert/alexa-strava/blob/master/img/graph.png?raw=true)
 
 Seems pretty simple right? Don't worry about that "Some other path" for now, we will get there, but we want to focus on the "Stats on Last Activity" path. Here's how it will kind of go.
 
@@ -276,5 +276,47 @@ Seems pretty simple right? Don't worry about that "Some other path" for now, we 
   - Alexa fetches that information and voices it in a clean manner
   - Alexa exits Strava
 
-That's 5 steps. That's all we are doing today. 5 simple steps...that are going to be some work!
+That's 5 steps. That's all we are doing today. 5 simple steps...that are going to be some work! But now that we know what our game plan is, we can start writing some code and making it come to life!
 
+##### Intents and Utterances
+
+If we think about the steps from out game plan, we know we are working on one main intent for now - `GetLastestActivity`. With `GetLastestActivity` we are hoping to send a request to Strava, retrieve all the data about the last activity of a user, and then return that data.
+
+That means our intents and utterances will look pretty simple:
+
+###### Intents
+
+```
+{
+  "intents": [
+    {
+      "intent": "GetLastestActivity"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    }
+  ]
+}
+```
+
+###### Utterances
+
+```
+GetLastestActivity what is my last activity
+GetLastestActivity tell me about my activity
+GetLastestActivity what did I do last
+GetLastestActivity stats on latest performance
+```
+
+As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a couple sample utterances to help Alexa get going.
+
+1. To set these up, head on back to the Amazon Developer site where we setup our Alexa skill and go to the "Interaction Model" section. We are going to copy and past the above Intents and Utterances into the respective places.
+
+INSERT BOTH IMAGES
+
+2. Once that is done, go ahead and click "Save"
+
+3. Woo! All done with this section. Go grab some water and next we will work on sending requests now to Strava in our Alexa application!
