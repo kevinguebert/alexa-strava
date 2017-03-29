@@ -222,3 +222,35 @@ INSERT IMAGE OF NGROK
 11. Go ahead and click "Next" and you'll be taken to the **SSL Certificate** page. Since we are using `ngrok` and having it locally click the middle radio button: *My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority*. **Note** this is only for development and we will clean this up later.
 
 12. Alright sounds good! Now onto setting up Strava and getting a developer account!
+
+### Strava Developer Setup
+
+Now that out base application is up and running, it's time to get situated with Strava.
+
+1. Visit [Strava Labs](http://labs.strava.com/developers/) for the developer portal access to Strava's API.
+
+2. Under "Get Started" click on "Manage Your App"
+
+INSERT IMAGE
+
+3. On the "Create Application" page, let's go ahead and fill out some basic data for out app.
+
+  - **Application Name**: Strava Alexa
+  - **Website**: If you have a personal website, use that! I'm just going to use mine at [http://kevinguebert.com](http://www.kevinguebert.com)
+  - **Application Description:**: Strava on Alexa
+  - **Authorization Callback Domain:** For now, we are going to use the same website as above: [kevinguebert.com](http://www.kevinguebert.com)
+
+INSERT IMAGE
+
+4. Check the box and click submit, you should be good to go! Your application should page should look something like this:
+
+INSERT IMAGE
+
+5. With out application created, we are focused on two key resources here.
+
+  - Client Secret
+  - Access Token
+
+  INSERT IMAGE
+
+6. But for now, we are good to go in setting up our application. Let's move on to the next steps and try and get it connected in Alexa!
