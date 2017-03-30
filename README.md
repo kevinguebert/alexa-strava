@@ -585,7 +585,7 @@ With that knowledge, we can move forward!
         elapsed += milliseconds.getUTCSeconds() + " seconds";
         return elapsed;
       }
-    ```
+      ```
 
   - If you inspect the code above, you can see it is checking for days, hours, minutes, and seconds, and adding it to a string to output it nicely. Thanks function!
 
