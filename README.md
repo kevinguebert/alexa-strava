@@ -473,7 +473,7 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 
 27. Okay we have data now! Woo! But wow, look at all that data we have! For one activity, we have a fair amount of data associated with it. Now we just need to make sure we display (voice) it in a meaningful manner.
 
-28. [Here's what we should be looking like at the end of this section](https://github.com/kevinguebert/alexa-strava/blob/7cafd8163c9d41bb7e9b4ac66ead0aa514d4fc04/app.js)
+28. [Here's what we should be looking like at the end of this section](https://github.com/kevinguebert/alexa-strava/blob/5fed13d87d89017ad9580578739b87dc4ad6fb3d/app.js)
 
 ### Returning Responses
 
@@ -723,7 +723,7 @@ With that knowledge, we can move forward!
 
 ![Service Simulator](https://github.com/kevinguebert/alexa-strava/blob/master/img/service-simulator.png?raw=True)
 
-20. Congratulations! You're finished! 🎉 🎉 [Double check your code to make sure it matches mine and you've got it rolling!](https://github.com/kevinguebert/alexa-strava/blob/15e377c2e1028a2387406ff9b735b3d5d13b63ae/app.js)
+20. Congratulations! You're finished! 🎉 🎉 [Double check your code to make sure it matches mine and you've got it rolling!](https://github.com/kevinguebert/alexa-strava/blob/191bd1fc16a7889dff9e1513edd092ee1763fd3a/app.js)
 
 ### Wrap Up
 
