@@ -85,7 +85,6 @@ Well I think that's everything on the list, let's get started!
     - [express](https://github.com/expressjs/express)
     - [dotenv](https://github.com/motdotla/dotenv)
     - [convert-units](https://github.com/ben-ng/convert-units)
-    - [body-parser](https://github.com/expressjs/body-parser)
 
     `npm install --save alexa-app express dotenv convert-units`
 
@@ -96,8 +95,6 @@ Well I think that's everything on the list, let's get started!
     ```
     var express    = require("express");
     var alexa      = require("alexa-app");
-    var bodyParser = require("body-parser");
-    var http       = require('http');
     var dotenv     = require('dotenv');
     var convert    = require('convert-units')
     ```
@@ -106,8 +103,6 @@ Well I think that's everything on the list, let's get started!
 
     ```
     var app = express();
-    app.use(bodyParser.urlencoded({extended: true}));
-    app.use(bodyParser.json());
     app.set("view engine", "ejs");
     ```
 
@@ -119,8 +114,8 @@ Well I think that's everything on the list, let's get started!
 
     ```
     var alexaApp = new alexa.app("strava");
-        alexaApp.express(app, "/echo/");
 
+    alexaApp.express({ expressApp: app });
     app.listen(process.env.port || 5000);
     ```
 
@@ -138,35 +133,36 @@ Well I think that's everything on the list, let's get started!
     ```
     var express    = require("express");
     var alexa      = require("alexa-app");
-    var http       = require('http');
     var dotenv     = require('dotenv');
     var convert    = require('convert-units')
 
     var app = express();
-    app.use(bodyParser.urlencoded({extended: true}));
-    app.use(bodyParser.json());
     app.set("view engine", "ejs");
 
+    var alexaApp = new alexa.app("strava");
+    alexaApp.express({ expressApp: app });
+
+
     alexaApp.launch(function(request, response) {
-        response.say("Hello, welcome to Strava");
+        response.say("Hello, welcome to Strava.");
         response.shouldEndSession(false);
     });
 
-    var alexaApp = new alexa.app("strava");
-        alexaApp.express(app, "/echo/");
-
-    app.listen(process.env.port || 5000);
+    app.listen(5000);
+    console.log('Started on port 5000');
     ```
 
-10. I wish I could say we were done in the terminal, but not quite yet. In order to get our express server up and running for Alexa to talk to, we need to 1) start it up 2) have a url for it to hit. If you read my last tutorial, you would know that my favorite tool for that is `ngrok`. `ngrok` is a local tunneling service that provides `https` urls for you to test with that come from localhost. To download `nrgok` [visit the website](https://ngrok.com/) and download the right one for your operating system.
+10. Awesome, just to confirm it's working. Head back over to the terminal and run `node index.js`. Hopefully it works!
+
+11. I wish I could say we were done in the terminal, but not quite yet. In order to get our express server up and running for Alexa to talk to, we need to 1) start it up 2) have a url for it to hit. If you read my last tutorial, you would know that my favorite tool for that is `ngrok`. `ngrok` is a local tunneling service that provides `https` urls for you to test with that come from localhost. To download `nrgok` [visit the website](https://ngrok.com/) and download the right one for your operating system.
 
     Once it is downloaded, unzip the folder, and **copy and paste** the file called `ngrok` into your **alexa-strava directory.** Your directory should now look like this:
 
     ![Folder Structure](https://raw.githubusercontent.com/kevinguebert/alexa-strava/master/img/Step-10.png)
 
-11. Now that we have `nrok` downloaded, we can work on getting the web server started and tunneling into localhost.
+12. Now that we have `nrok` downloaded, we can work on getting the web server started and tunneling into localhost.
 
-12. To do that, open up another terminal window and make sure you are in your project folder. Go ahead and run:
+13. To do that, open up another terminal window and make sure you are in your project folder. Go ahead and run:
 
     `./ngrok http 5000`
 
@@ -214,14 +210,13 @@ For this section, we are going to *quickly* walk through the steps of getting yo
     Remember this:
       ```
       var alexaApp = new alexa.app("strava");
-          alexaApp.express(app, "/echo/");
       ```
 
-    What this did is it created a new `alexaApp` at the endpoint `/echo/strava`. If you want, you can remove the `/echo/` but the `strava` is required.
+    What this did is it created a new `alexaApp` at the endpoint `/strava`.
 
 10. At the end of the `ngrok` url, make sure you add in
 
-     `ngrok_url` + `/echo/strava`
+     `ngrok_url` + `/strava`
 
 11. Go ahead and click "Next" and you'll be taken to the **SSL Certificate** page. Since we are using `ngrok` and having it locally click the middle radio button: *My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority*. **Note** this is only for development and we will clean this up later.
 
