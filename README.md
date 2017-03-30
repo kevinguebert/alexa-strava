@@ -589,7 +589,7 @@ With that knowledge, we can move forward!
 
   - If you inspect the code above, you can see it is checking for days, hours, minutes, and seconds, and adding it to a string to output it nicely. Thanks function!
 
-  Now all we need to do is convert the seconds we have to milliseconds and we will be good to go.
+    Now all we need to do is convert the seconds we have to milliseconds and we will be good to go.
 
     ```
     activity_elapsed_time = "Time: " + timeToHuman(convert(activity.elapsed_time).from('s').to('ms')) + ". ";
