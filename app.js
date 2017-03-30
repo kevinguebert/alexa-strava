@@ -26,7 +26,6 @@ alexaApp.launch(function(request, response) {
 });
 
 alexaApp.intent("GetLastestActivity", function(request, response) {
-    //Send request to strava
     strava.athlete.listActivities({
         page: 1,
         per_page: 1
@@ -34,72 +33,18 @@ alexaApp.intent("GetLastestActivity", function(request, response) {
         if (err) {
           response.say("A problem with the request has occured. We apologize for the problem. Please try again later.")
         }
-        var output = "";
-        console.log(err);
-        console.log(activities);
+
         if (activities.length === 0) {
-            //No activities, have an error
-            // TODO: better error
-            output = "No activities found.";
+            var output = "I'm sorry, I was unable to find any activities for this athlete. Today's a good day to create one! Get out there and record your first activity!";
             response.say(output);
         } else {
             var activity = activities[0];
-
-            // request.session.sessionAttributes = { "athlete": activities[0].id};
-            // session.set({"athlete": activities[0].id});
-            /* Response:
-            { id: 894557721,
-            resource_state: 2,
-            external_id: 'garmin_push_1612875533',
-            upload_id: 993065686,
-            athlete: { id: 9503898, resource_state: 1 },
-            name: 'Treadmills are tough',
-            distance: 5129.4,
-            moving_time: 2413,
-            elapsed_time: 2413,
-            total_elevation_gain: 0,
-            type: 'Run',
-            start_date: '2017-03-10T13:15:17Z',
-            start_date_local: '2017-03-10T08:15:17Z',
-            timezone: '(GMT-05:00) America/New_York',
-            utc_offset: -18000,
-            start_latlng: null,
-            end_latlng: null,
-            location_city: null,
-            location_state: null,
-            location_country: 'United States',
-            start_latitude: null,
-            start_longitude: null,
-            achievement_count: 0,
-            kudos_count: 11,
-            comment_count: 1,
-            athlete_count: 1,
-            photo_count: 0,
-            map: { id: 'a894557721', summary_polyline: null, resource_state: 2 },
-            trainer: true,
-            commute: false,
-            manual: false,
-            private: false,
-            flagged: false,
-            gear_id: 'g1825577',
-            average_speed: 2.126,
-            max_speed: 2.9,
-            average_cadence: 78.8,
-            has_heartrate: true,
-            average_heartrate: 155,
-            max_heartrate: 186,
-            pr_count: 0,
-            total_photo_count: 0,
-            has_kudoed: false,
-            workout_type: 0,
-            suffer_score: 66 }
-                */
 
             //Get most recent activity
             var activity = activities[0];
 
             // Activity name
-            output = "Name: " + activity.name+ ".";
+            var output = "Name: " + activity.name+ ".";
 
             //Last activity date
             output += " Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm, dS, yyyy")+ ". ";
@@ -116,14 +61,7 @@ alexaApp.intent("GetLastestActivity", function(request, response) {
             // Activity Time (elapsed, in seconds)
             if(activity.elapsed_time) output += " Total time: " + timeToHuman(convert(activity.elapsed_time).from("s").to("ms")) + ".";
 
-            output += " " + randomCongrats();
-
             response.say(output);
-            response.card({
-              type: "Simple",
-              title: activity.name,
-              content: output
-            });
             return response.send();
         }
     });

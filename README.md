@@ -479,7 +479,252 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
         { id: 894557721, resource_state: 2, external_id: 'garmin_push_1612875533', upload_id: 993065686, athlete: { id: 9503898, resource_state: 1 }, name: 'Treadmills are tough', distance: 5129.4, moving_time: 2413, elapsed_time: 2413, total_elevation_gain: 0, type: 'Run', start_date: '2017-03-10T13:15:17Z', start_date_local: '2017-03-10T08:15:17Z', timezone: '(GMT-05:00) America/New_York', utc_offset: -18000, start_latlng: null, end_latlng: null, location_city: null, location_state: null, location_country: 'United States', start_latitude: null, start_longitude: null, achievement_count: 0, kudos_count: 11, comment_count: 1, athlete_count: 1, photo_count: 0, map: { id: 'a894557721', summary_polyline: null, resource_state: 2 }, trainer: true, commute: false, manual: false, private: false, flagged: false, gear_id: 'g1825577', average_speed: 2.126, max_speed: 2.9, average_cadence: 78.8, has_heartrate: true, average_heartrate: 155, max_heartrate: 186, pr_count: 0, total_photo_count: 0, has_kudoed: false, workout_type: 0, suffer_score: 66 }
       ]
       ```
-
       The response is an `array` with one value in it (remember, we only asked for one!)
 
-  27. Okay we have data now! Woo! But wow, look at all that data we have! For one activity, we have a fair amount of data associated with it. Now we just need to make sure we display (voice) it in a meaningful manner. 
+27. Okay we have data now! Woo! But wow, look at all that data we have! For one activity, we have a fair amount of data associated with it. Now we just need to make sure we display (voice) it in a meaningful manner.
+
+28. Here's what we should be looking like at the end of this section.
+    INSERT CODE OR LINK TO CODE
+
+### Returning Responses
+
+With our new found data and successful, it is now time to think about what we would like to return to the user. Do we want to return **all** the data? Some of the data? How would we like Alexa to say it?
+
+After working on this a little, I've come up with two possible solutions:
+
+  1. Make it simple by just outputting what the data is and what the results are.
+      - "Name: Run. Distance: 2.4 miles" etc.
+  2. Try and craft a story around the activity and make it more natural language
+      - "On Tuesday March 28th you Ran 2.4 miles" etc.
+
+Which one are we going to do? Well, if we look at it, number 1 looks easier while number 2 looks more intensive... but also more of what a user would want. In saying that though, this is part 1 of a long series, so we are going to continue with the first one and then iterate on top of it to produce a story in later parts.
+
+Next question is how much data will a user want to hear? All of the data? Some of the data? Only the most important?
+
+My answer: Some of the most important!
+
+Why's that? Well I have the benefit of working on this before so I know a couple of key things already.
+
+Alexa takes a **long time** to say all the data. If you want to know Cadence, Avg. HR, Max. HR, Avg. Speed, Max Speed, Elevation, Suffer Score, etc. etc. it takes Alexa almost 30 seconds to a minute to share that information. I was getting lost in it all. Maybe that'll be something to revisit in the future ;)
+
+With that knowledge, we can move forward!
+
+1. With our data, let's go ahead and set our activity to be a friendlier variable we can work with. Remember, this is inside an else block after the "no activities" check.
+
+    ```
+    else {
+      var activity = activities[0];
+    }
+    ```
+
+2. Okay, `activity` set. Now let's look at the response a little. more. What are the **most important** pieces that a person would want to hear?
+
+    Here's the list I came up with, you can chose your own.
+    - Date
+    - Type (Swim, Bike, Run, etc.)
+    - Name
+    - Distance
+    - Elapsed Time
+    - Avg. Pace
+    - Avg. HR
+
+    What's that phrase again, keep it stupid simple? Or is it keep it simple, stupid? Whatever that is, we want to keep it simple for this first round.
+
+3. Let's go ahead for code understanding, grab these values and set them to be variables in our code.
+
+    ```
+    var activity_name = activities[0].name;
+    var activity_type = activities[0].type;
+    var activity_date = activities[0].start_date_local;
+    var activity_distance = activities[0].distance;
+    var activity_avg_hr = activities[0].average_heartrate;
+    var activity_avg_speed = activities[0].average_speed;
+    var activity_elapsed_time = activities[0].elapsed_time;
+    ```
+
+4. Next, we need to do some Math and conversions! Yes Math! Here's why.
+
+    1. Date: UTC time
+    2. Distance: Meters
+    3. Speed: Meters per Second
+    4. Elapsed Time: Seconds
+
+    I guess I should have prefaced everything with I am an Imperial units user, so I will be setting all of this up for that. 🙃
+
+5. To convert the `activity_date` to a human readable format, we are actually going to use some helper code here to help us out. I am not trying to come up with the hot new solution to outputting dates or try and do it here in this tutorial - many resources already exist out there that do that. One such is by Steven Levithan from StackOverflow. Check out the code here INSERT CODE HERE and add it to the bottom of your file. Or, alternatively, create a new file, add it to that, and import it into `app.js` both work!
+
+6. The date formatter takes in a new Date object and you pass in how you would like it outputted. i.e. If you would Thursday March 30th, 2017 you would pass in `dddd, mmmm, dS, yyyy`
+
+    `activity_date = "Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm dS, yyyy") + ". ";`
+
+    **Note:** You can see above that I appended a period at the end of the string. Alexa pauses at punctuation so we want to make sure at the end of every data entry, she takes a "breath"
+
+7. Okay perfect! Part one down. Next up, distance! So distance is in meters to convert that to miles we are going to use one of the packages that we installed at the very beginning of the project! Remember the `convert-units` package we installed, well it has some pretty awesome built in functions to help us out.
+
+    `activity_distance = "Distance: " truncate(convert(activity.distance).from("m").to("mi"), 3) + " miles. ";`
+
+    **Note:** `convert-units` leaves in a fair amount of decimal places. The `truncate` function you see above leaves it at 3 digits. If you are an active cyclist, this may cause some problems once you pass the 100 mile marker. We will revisit it later! Here's the simple code for it below!
+
+    ```
+      function truncate (num, places) {
+        return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
+      }
+    ```
+
+8. Let's move on to elapsed time. If we do it like we did above with distance and use the `from().to()` method, that would get us *almost* there. Think about it more, if we have 1000 seconds, convert that from seconds to minutes, it'll say  "16.4 minutes" which is not what we are looking for. We are looking for the "16 minutes and 40 seconds" type of speech. Well, thank goodness for date formatters in Javascript! Another handy-dandy function here -
+
+    - Pass the time in as milliseconds and it outputs a human understandable time.
+
+      ```
+        function timeToHuman (milliseconds) {
+          var elapsed = "";
+          milliseconds = new Date(milliseconds);
+          var days = milliseconds.getUTCDate()-1;
+          var hours = milliseconds.getUTCHours();
+          var minutes = milliseconds.getUTCMinutes();
+          var seconds = milliseconds.getUTCSeconds();
+          if(days > 0) {
+            elapsed += milliseconds.getUTCDate()-1 + " days, ";
+          }
+
+          if(hours > 0) {
+            elapsed += milliseconds.getUTCHours() + " hours, ";
+          }
+
+          if(minutes > 0) {
+            elapsed += milliseconds.getUTCMinutes() + " minutes, ";
+          }
+          elapsed += milliseconds.getUTCSeconds() + " seconds";
+          return elapsed;
+        }
+    ```
+
+    If you inspect the code above, you can see it is checking for days, hours, minutes, and seconds, and adding it to a string to output it nicely. Thanks function!
+
+    Now all we need to do is convert the seconds we have to milliseconds and we will be good to go.
+
+    `activity_elapsed_time = "Time: " + timeToHuman(convert(activity.elapsed_time).from('s').to('ms')) + ". ";`
+
+9. Alright, last math conversion....pace! This one *actually* has some math in it. So what we get back from Strava is meters per second. Cool, however, we want to output it in a more well known format of pace - "8 minutes and 8 seconds per mile" so you know what your pace was. How do we do that?
+
+    1. To convert from meters per second to seconds per mile the formula goes as follows.
+
+        1 meters per second = 1609.344 seconds per mile
+
+    2. Cool! Seconds per mile we can work with. With seconds per mile, we can then again use that `timetoHuman` function to convert that to a human understandable format! Below is it in all it's glory!
+
+    `activity_avg_speed = "Average pace: " + timeToHuman(convert(truncate((1609.344 / activity.average_speed), 3)).from('s').to('ms')) + " per mile.";`
+
+10. Lastly, the ones we didn't have to convert.
+
+    ```
+    activity_name = "Name: " + activity_name + ". ";
+    activity_type = "Type: " + activity_type+ ". ";
+    activity_avg_hr = "Heartrate: " + activity_avg_hr + " beats per minute. ";
+    ```
+
+11. Now at this point I would say "Oh look, we are almost done!" but that would be a sad sad lie. You may have thought to yourself along the way "Wait Kevin, I don't use a heart rate strap or have a way to measure that, what happens if that data is not there?" Well that is a good question! What would happen? It would say something really sad like "Heartrate: null beats per minute". We don't want that.
+
+    So what does that mean we need to do? We need to restructure a little bit!
+
+12. To restructure our code, we are going to do two things.
+
+    1. Add in a variable to handle what we want to output
+    2. Add checks in to determine if values exist or not.
+
+13. Right after we did `var activity = activities[0];` I want you to add `var output = "Name: " + activity.name + ". ";`. Output is going to be our variable that holds all of our data for Alexa to say. Now we are going to iterate over all the data we have, check if it exists, and then add it to the string.
+
+    **Note:** Some things will always exist (or so I understand). These include Name, Date, Type. Maybe Elapsed Time, but we will check anyways.
+
+14. Now the code below will have changed a little bit from above. If you take a look at it, what I've done is removed the variable instantiations and tried to keep them in sweet, short, one-liners. Take a look, read over it and I'm sure you will understand it.
+
+      ```
+      //Get most recent activity
+      var activity = activities[0];
+
+      // Activity name
+      output = "Name: " + activity.name+ ".";
+
+      //Last activity date
+      output += " Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm, dS, yyyy")+ ". ";
+
+      // Activity Type (Run, Bike, Swim, Hike, etc.)
+      if(activity.type) output += " Type: " + activity.type + ".";
+
+      // Activity Average HR
+      if(activity.average_heartrate) output += " Average Heartrate: " + activity.average_heartrate + " beats per minute. ";
+
+      // Activity Pace - convert meters per second to pace
+      if(activity.average_speed) output += "Average pace: " + timeToHuman(convert(truncate((1609.344 / activity.average_speed), 3)).from('s').to('ms')) + " per mile. ";
+
+      // Activity Distance - convert meters to miles
+      if(activity.distance) output += " Distance: " + truncate(convert(activity.distance).from("m").to("mi"), 2) + " miles.";
+
+      // Activity Time - convert seconds to time
+      if(activity.elapsed_time) output += " Total time: " + timeToHuman(convert(activity.elapsed_time).from("s").to("ms")) + ".";
+      ```
+
+15. We are so close to being done! We have output string of what Alexa is going to say, now all we need to do is return it:
+
+    ```
+    response.say(output);
+    return response.send();
+    ```
+
+16. If you have tried this out with Alexa at this point, you will get it failing. Let me tell you why - with the `alexa-sdk` we have and with creating Alexa apps, sending requests is something we need to think about. Why? Because they *take time*. Alexa wants a quick response and doesn't like waiting. That means we have to tell Alexa "Hey, I have a request I want to say and I don't want you to say anything until we get a response back." That way, Alexa respnose with what we want!
+
+17. To do that with `alexa-sdk` what we have to do is `return false;` outside of out Strava API call. This sends a message through the `alexa-sdk` to Alexa to say "wait" and will wait for the `return response.send();` function before saying anything. So that means our whole intent should look like this.
+
+    ```
+      alexaApp.intent("GetLastestActivity", function(request, response) {
+          strava.athlete.listActivities({
+              page: 1,
+              per_page: 1
+          }, function(err, activities) {
+              if (err) {
+                response.say("A problem with the request has occured. We apologize for the problem. Please try again later.")
+              }
+
+              if (activities.length === 0) {
+                  var output = "I'm sorry, I was unable to find any activities for this athlete. Today's a good day to create one! Get out there and record your first activity!";
+                  response.say(output);
+              } else {
+                  var activity = activities[0];
+
+                  //Get most recent activity
+                  var activity = activities[0];
+
+                  // Activity name
+                  var output = "Name: " + activity.name+ ".";
+
+                  //Last activity date
+                  output += " Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm, dS, yyyy")+ ". ";
+
+                  if(activity.type) output += " Type: " + activity.type + ".";
+
+                  if(activity.average_heartrate) output += " Average Heartrate: " + activity.average_heartrate + " beats per minute.";
+
+                  if(activity.average_speed) output += " Average pace: " + timeToHuman(convert(truncate((1609.344 / activity.average_speed), 3)).from('s').to('ms')) + " per mile.";
+
+                  // Activity Distance (in meters)
+                  if(activity.distance) output += " Distance: " + truncate(convert(activity.distance).from("m").to("mi"), 2) + " miles.";
+
+                  // Activity Time (elapsed, in seconds)
+                  if(activity.elapsed_time) output += " Total time: " + timeToHuman(convert(activity.elapsed_time).from("s").to("ms")) + ".";
+
+                  response.say(output);
+                  return response.send();
+              }
+          });
+          return false;
+      });
+    ```
+
+18. Yay! Look as us go! It looks like we are good to go, let's go ahead and test it out in our simulator!
+
+19. Head back over to the Developer Amazon site and go to the "Test" tab on the left hand side. Scroll on down to "Service Simulator" and we are going to type in a sample phrase. "Latest Activity." When you hit "Ask Strava" hopefully you should get a successful Service Response! Go ahead and click the "Listen" button to actually hear Alexa!
+
+
+INSERT IMAGE OF SERVICE SIMULATOR
+
+20. Congratulations! You're finished!
