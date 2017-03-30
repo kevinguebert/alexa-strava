@@ -332,43 +332,11 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 
 ### Sending Requests
 
-1. To start sending requests to Strava we need to do 2 things first.
+1. To start sending requests to Strava we need to do 1 thing first.
 
-    - Authorize ourselves to be able to send requests
-    - Install a handy-dandy npm package to help us out in sending these requests
+    - Use a handy-dandy npm package to help us out in sending these requests
 
-    Let's start with authorization
-
-2. Strava uses **oauth** as it's authorization resource. We will be going into what that means and how to implement it into our Alexa app in a following tutorial, but today, we still need to authorize our Strava account to be able to be accessed by our Strava application.
-
-    What does that mean? Well you know how whenever you go and "Sign in with Facebook" on some websites, it redirects you temporarily to Facebook where you click "Allow" for that application? That's what we are doing, but in a simpler way to get started.
-
-3. To authorize our account to for our application to use, we need a couple things:
-
-    - A personal Strava account (I hope you have one by now)
-    - Our Application Client ID
-    - Our Application Redirect URL
-
-    These can all be found on that "Manage Your Application" page in the Strava Developer Lab.
-
-4. With those pieces of information on hand, we are going to craft a url. It should look something like this:
-
-    `https://www.strava.com/oauth/authorize?client_id=CLIENTID&response_type=code&redirect_uri=REDIRECTURL&scope=public&state=mystate&approval_prompt=force#_=_`
-
-    **Please Note:** Make sure to change the CLIENTID and REDIRECTURL to be the ones in your application!
-
-5. With that URL created, open up your favorite web browser and copy and paste that in there. You should get something that looks like this:
-
-    INSERT IMAGE OF AUTH
-
-6. Go ahead and click "Authorize" and it will:
-
-    - Authorize your account
-    - Redirect you to your REDIRECT URL
-
-7. Alright perfect! Our profile and our application are now in sync.
-
-8. Next up, head back over to your favorite text editor. We are going to work on using our Client Secret and Client Access Tokens to send requests.
+8. Head back over to your favorite text editor. We are going to work on using our Client Secret and Client Access Tokens to send requests.
 
 9. In the base root of your folder, create a file called `.env`. If you recall from wayyyy back at the beginning, we are using a package called `dotenv` which will hold our keys to our application. Git does not automatically commit these files so they will never get accidentally published on Github or anything!
 
@@ -551,7 +519,7 @@ With that knowledge, we can move forward!
 
     I guess I should have prefaced everything with I am an Imperial units user, so I will be setting all of this up for that. 🙃
 
-5. To convert the `activity_date` to a human readable format, we are actually going to use some helper code here to help us out. I am not trying to come up with the hot new solution to outputting dates or try and do it here in this tutorial - many resources already exist out there that do that. One such is by Steven Levithan from StackOverflow. Check out the code here INSERT CODE HERE and add it to the bottom of your file. Or, alternatively, create a new file, add it to that, and import it into `app.js` both work!
+5. To convert the `activity_date` to a human readable format, we are actually going to use some helper code here to help us out. I am not trying to come up with the hot new solution to outputting dates or try and do it here in this tutorial - many resources already exist out there that do that. One such is by Steven Levithan from StackOverflow. [Check out the code here](https://gist.github.com/eralston/968809) and add it to the bottom of your file. Or, alternatively, create a new file, add it to that, and import it into `app.js` both work!
 
 6. The date formatter takes in a new Date object and you pass in how you would like it outputted. i.e. If you would Thursday March 30th, 2017 you would pass in `dddd, mmmm, dS, yyyy`
 
@@ -671,7 +639,7 @@ With that knowledge, we can move forward!
     return response.send();
     ```
 
-16. If you have tried this out with Alexa at this point, you will get it failing. Let me tell you why - with the `alexa-sdk` we have and with creating Alexa apps, sending requests is something we need to think about. Why? Because they *take time*. Alexa wants a quick response and doesn't like waiting. That means we have to tell Alexa "Hey, I have a request I want to say and I don't want you to say anything until we get a response back." That way, Alexa respnose with what we want!
+16. If you have tried this out with Alexa at this point, you will get it failing. Let me tell you why - with the `alexa-sdk` we have and with creating Alexa apps, sending requests is something we need to think about. Why? Because they *take time*. Alexa wants a quick response and doesn't like waiting. That means we have to tell Alexa "Hey, I have a request I want to say and I don't want you to say anything until we get a response back." That way, Alexa responds with what we want!
 
 17. To do that with `alexa-sdk` what we have to do is `return false;` outside of out Strava API call. This sends a message through the `alexa-sdk` to Alexa to say "wait" and will wait for the `return response.send();` function before saying anything. So that means our whole intent should look like this.
 
@@ -724,7 +692,6 @@ With that knowledge, we can move forward!
 
 19. Head back over to the Developer Amazon site and go to the "Test" tab on the left hand side. Scroll on down to "Service Simulator" and we are going to type in a sample phrase. "Latest Activity." When you hit "Ask Strava" hopefully you should get a successful Service Response! Go ahead and click the "Listen" button to actually hear Alexa!
 
-
-INSERT IMAGE OF SERVICE SIMULATOR
+![Service Simulator](https://github.com/kevinguebert/alexa-strava/blob/master/img/service-simulator.png?raw=True)
 
 20. Congratulations! You're finished!

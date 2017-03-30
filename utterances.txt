@@ -1,9 +1,0 @@
-GetLastestActivity what is my last activity
-//Your last activity was today a run today at 4:30PM
-//Today's run: your average pace was 8:43 per/mile with an average
-// heart rate of 165 beats per minute etc. etc.
-
-GetGoalStatus how am I doing this week on my goals
-GetGoalStatus how do my goals look
-GetGoalStatus have I met my goal
-//You have run 20 miles out of your 30 mile goal. You're almost there!
