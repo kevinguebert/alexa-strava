@@ -4,24 +4,24 @@ Hello and Welcome! In this tutorial series we are going to walk through the step
 
 ### Outline
 
-1. Introduction to Strava
-    - What is Strava
-2. Strava + Alexa
-    - What are we building
-3. Prerequisites
-4. Setup
-    - Local Setup
-    - Amazon Alexa Configuration
-5. Access to Strava
-6. Defining Intents & Utterances
-7. Sending Requests
-8. Returning Responses
-9. Wrap up
+1. [Introduction to Strava](https://github.com/kevinguebert/alexa-strava#strava)
+    - [What is Strava](https://github.com/kevinguebert/alexa-strava#what-is-strava)
+2. [Strava + Alexa](https://github.com/kevinguebert/alexa-strava#strava--alexa)
+    - [What are we building](https://github.com/kevinguebert/alexa-strava#what-are-we-building)
+3. [Prerequisites](https://github.com/kevinguebert/alexa-strava#prerequisites)
+4. [Setup](https://github.com/kevinguebert/alexa-strava#setup)
+    - [Local Setup](https://github.com/kevinguebert/alexa-strava#local-setup)
+    - [Amazon Alexa Configuration](https://github.com/kevinguebert/alexa-strava#amazon-alexa-configuration)
+5. [Access to Strava](https://github.com/kevinguebert/alexa-strava#strava-developer-setup)
+6. [Defining Intents & Utterances](https://github.com/kevinguebert/alexa-strava#defining-intents-and-utterance)
+7. [Sending Requests](https://github.com/kevinguebert/alexa-strava#sending-requests)
+8. [Returning Responses](https://github.com/kevinguebert/alexa-strava#returning-responses)
+9. [Wrap up](https://github.com/kevinguebert/alexa-strava#wrap-up)
 
 
 ### Strava
 
-##### What is Strava?
+#### What is Strava?
 
 > If you're active, Strava was made for you. Our mobile app and website enhance the experience of sport and connect millions of athletes from around the world. We're the social network for those whoe strive. Join us.
 
@@ -39,7 +39,7 @@ In this tutorial series we are going to walk through all the steps in creating a
 
 Here is the tutorial series outline for us:
 
-1. Setup & Activity Retrieval with Alexa
+1. [Setup & Activity Retrieval with Alexa](https://github.com/kevinguebert/alexa-strava#strava--alexa)
 2. Intents and Actions - Adding more features
 3. Account linking with Alexa & Strava
 4. App Submission
@@ -81,15 +81,13 @@ Well I think that's everything on the list, let's get started!
 
     Node packages we will be using:
 
-    INSERT NPM LINKS
-    - alexa-app
-    - express
-    - dotenv
-    - convert-units
-    - body-parser
-    - moment
+    - [alexa-app](https://github.com/alexa-js/alexa-app)
+    - [express](https://github.com/expressjs/express)
+    - [dotenv](https://github.com/motdotla/dotenv)
+    - [convert-units](https://github.com/ben-ng/convert-units)
+    - [body-parser](https://github.com/expressjs/body-parser)
 
-    `npm install --save alexa-app express dotenv convert-units moment`
+    `npm install --save alexa-app express dotenv convert-units`
 
 4. Once that has been completed, let's create our `index.js` file and open it up in Atom.
 
@@ -270,7 +268,7 @@ Finally. We have done all the setup and configurations for our application, it t
 
 Now it's time to **actually figure out what we want to do.** Strava provides a great API for us to interact with but we need to make sure we utilize it in the best possible way while also following good Voice Design guidelines.
 
-##### Game Plan
+#### Game Plan
 
 When a user opens up Strava on Alexa, we would like the user to hear about their latest activity they performed with all the data elements associated with it. What I've done for you is laid out the simple path that we are going to walk through today. Check out the graph below:
 
@@ -286,13 +284,13 @@ Seems pretty simple right? Don't worry about that "Some other path" for now, we 
 
 That's 5 steps. That's all we are doing today. 5 simple steps...that are going to be some work! But now that we know what our game plan is, we can start writing some code and making it come to life!
 
-##### Intents and Utterances
+#### Intents and Utterances
 
 If we think about the steps from out game plan, we know we are working on one main intent for now - `GetLastestActivity`. With `GetLastestActivity` we are hoping to send a request to Strava, retrieve all the data about the last activity of a user, and then return that data.
 
 That means our intents and utterances will look pretty simple:
 
-###### Intents
+##### **Intents**
 
 ```
 {
@@ -310,7 +308,7 @@ That means our intents and utterances will look pretty simple:
 }
 ```
 
-###### Utterances
+##### **Utterances**
 
 ```
 GetLastestActivity what is my last activity
@@ -415,7 +413,7 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 
     We need to think of a clean way to handle all these scenarios. Right now, we are at the top level of errors. What that means is that we are only going to encouter the first two.
 
-    But if we think about it more, at this point in the tutorial, we have already authorized our account with this application, so unless that failed way back a couple steps, we can't hit the "athlete doesn't exist at this point" error (Please note, we will come back to it at some point! Can't just skip error handling ;))
+    But if we think about it more, at this point in the tutorial, we have already authorized our account with this application, so unless that failed way back a couple steps, we can't hit the "athlete doesn't exist at this point" error (Please note, we will come back to it at some point! Can't just skip error handling 😎)
 
     Okay so that means our request failed. What would be the best way to handle that? Well, let's keep it simple for now. Apologize for the problem and ask the user to try again.
 
@@ -472,7 +470,7 @@ My answer: Some of the most important!
 
 Why's that? Well I have the benefit of working on this before so I know a couple of key things already.
 
-Alexa takes a **long time** to say all the data. If you want to know Cadence, Avg. HR, Max. HR, Avg. Speed, Max Speed, Elevation, Suffer Score, etc. etc. it takes Alexa almost 30 seconds to a minute to share that information. I was getting lost in it all. Maybe that'll be something to revisit in the future ;)
+Alexa takes a **long time** to say all the data. If you want to know Cadence, Avg. HR, Max. HR, Avg. Speed, Max Speed, Elevation, Suffer Score, etc. etc. it takes Alexa almost 30 seconds to a minute to share that information. I was getting lost in it all. Something to revist in the future! 🎉
 
 With that knowledge, we can move forward!
 
@@ -522,13 +520,17 @@ With that knowledge, we can move forward!
 
 6. The date formatter takes in a new Date object and you pass in how you would like it outputted. i.e. If you would Thursday March 30th, 2017 you would pass in `dddd, mmmm, dS, yyyy`
 
-    `activity_date = "Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm dS, yyyy") + ". ";`
+    ```
+    activity_date = "Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm dS, yyyy") + ". ";
+    ```
 
     **Note:** You can see above that I appended a period at the end of the string. Alexa pauses at punctuation so we want to make sure at the end of every data entry, she takes a "breath"
 
 7. Okay perfect! Part one down. Next up, distance! So distance is in meters to convert that to miles we are going to use one of the packages that we installed at the very beginning of the project! Remember the `convert-units` package we installed, well it has some pretty awesome built in functions to help us out.
 
-    `activity_distance = "Distance: " truncate(convert(activity.distance).from("m").to("mi"), 3) + " miles. ";`
+    ```
+    activity_distance = "Distance: " truncate(convert(activity.distance).from("m").to("mi"), 3) + " miles. ";
+    ```
 
     **Note:** `convert-units` leaves in a fair amount of decimal places. The `truncate` function you see above leaves it at 3 digits. If you are an active cyclist, this may cause some problems once you pass the 100 mile marker. We will revisit it later! Here's the simple code for it below!
 
@@ -570,7 +572,9 @@ With that knowledge, we can move forward!
 
     Now all we need to do is convert the seconds we have to milliseconds and we will be good to go.
 
-    `activity_elapsed_time = "Time: " + timeToHuman(convert(activity.elapsed_time).from('s').to('ms')) + ". ";`
+    ```
+    activity_elapsed_time = "Time: " + timeToHuman(convert(activity.elapsed_time).from('s').to('ms')) + ". ";
+    ```
 
 9. Alright, last math conversion....pace! This one *actually* has some math in it. So what we get back from Strava is meters per second. Cool, however, we want to output it in a more well known format of pace - "8 minutes and 8 seconds per mile" so you know what your pace was. How do we do that?
 
@@ -580,7 +584,9 @@ With that knowledge, we can move forward!
 
     2. Cool! Seconds per mile we can work with. With seconds per mile, we can then again use that `timetoHuman` function to convert that to a human understandable format! Below is it in all it's glory!
 
-    `activity_avg_speed = "Average pace: " + timeToHuman(convert(truncate((1609.344 / activity.average_speed), 3)).from('s').to('ms')) + " per mile.";`
+    ```
+    activity_avg_speed = "Average pace: " + timeToHuman(convert(truncate((1609.344 / activity.average_speed), 3)).from('s').to('ms')) + " per mile.";
+    ```
 
 10. Lastly, the ones we didn't have to convert.
 
@@ -693,4 +699,8 @@ With that knowledge, we can move forward!
 
 ![Service Simulator](https://github.com/kevinguebert/alexa-strava/blob/master/img/service-simulator.png?raw=True)
 
-20. Congratulations! You're finished! [Double check your code to make sure it matches mine and you've got it rolling!](https://github.com/kevinguebert/alexa-strava/blob/15e377c2e1028a2387406ff9b735b3d5d13b63ae/app.js)
+20. Congratulations! You're finished! 🎉 🎉 [Double check your code to make sure it matches mine and you've got it rolling!](https://github.com/kevinguebert/alexa-strava/blob/15e377c2e1028a2387406ff9b735b3d5d13b63ae/app.js)
+
+### Wrap Up
+
+Woo!

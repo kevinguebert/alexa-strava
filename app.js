@@ -43,22 +43,22 @@ alexaApp.intent("GetLastestActivity", function(request, response) {
             var activity = activities[0];
 
             // Activity name
-            var output = "Name: " + activity.name+ ".";
+            var output = "Name: " + activity.name+ ". ";
 
             //Last activity date
-            output += " Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm, dS, yyyy")+ ". ";
+            output += "Date: " + dateFormat(new Date(activity.start_date_local).toString(), "dddd, mmmm, dS, yyyy")+ ". ";
 
-            if(activity.type) output += " Type: " + activity.type + ".";
+            if(activity.type) output += "Type: " + activity.type + ".";
 
-            if(activity.average_heartrate) output += " Average Heartrate: " + activity.average_heartrate + " beats per minute.";
+            if(activity.average_heartrate) output += "Average Heartrate: " + activity.average_heartrate + " beats per minute. ";
 
-            if(activity.average_speed) output += " Average pace: " + timeToHuman(convert(truncate((1609.344 / activity.average_speed), 3)).from('s').to('ms')) + " per mile.";
+            if(activity.average_speed) output += "Average pace: " + timeToHuman(convert(truncate((1609.344 / activity.average_speed), 3)).from('s').to('ms')) + " per mile. ";
 
             // Activity Distance (in meters)
-            if(activity.distance) output += " Distance: " + truncate(convert(activity.distance).from("m").to("mi"), 2) + " miles.";
+            if(activity.distance) output += "Distance: " + truncate(convert(activity.distance).from("m").to("mi"), 2) + " miles. ";
 
             // Activity Time (elapsed, in seconds)
-            if(activity.elapsed_time) output += " Total time: " + timeToHuman(convert(activity.elapsed_time).from("s").to("ms")) + ".";
+            if(activity.elapsed_time) output += "Total time: " + timeToHuman(convert(activity.elapsed_time).from("s").to("ms")) + ". ";
 
             response.say(output);
             return response.send();
