@@ -587,13 +587,12 @@ With that knowledge, we can move forward!
         }
     ```
 
-    If you inspect the code above, you can see it is checking for days, hours, minutes, and seconds, and adding it to a string to output it nicely. Thanks function!
+    - If you inspect the code above, you can see it is checking for days, hours, minutes, and seconds, and adding it to a string to output it nicely. Thanks function!
 
     Now all we need to do is convert the seconds we have to milliseconds and we will be good to go.
 
-
     ```
-    activity_elapsed_time = "Time: " + timeToHuman(convert(activity.elapsed_time).from('s').to('ms')) + ". ";
+      activity_elapsed_time = "Time: " + timeToHuman(convert(activity.elapsed_time).from('s').to('ms')) + ". ";
     ```
 
 9. Alright, last math conversion....pace! This one *actually* has some math in it. So what we get back from Strava is meters per second. Cool, however, we want to output it in a more well known format of pace - "8 minutes and 8 seconds per mile" so you know what your pace was. How do we do that?
@@ -719,7 +718,7 @@ With that knowledge, we can move forward!
 
 ![Service Simulator](https://github.com/kevinguebert/alexa-strava/blob/master/img/service-simulator.png?raw=True)
 
-20. Congratulations! You're finished! 🎉 🎉 [Double check your code to make sure it matches mine and you've got it rolling!](https://github.com/kevinguebert/alexa-strava/blob/191bd1fc16a7889dff9e1513edd092ee1763fd3a/app.js)
+20. Congratulations! You're finished! 🎉 🎉 [Double check your code to make sure it matches mine and you've got it rolling!](https://github.com/kevinguebert/alexa-strava/blob/ef857d6da8b25e6504ba2eb4531fbde92a513fcd/app.js)
 
 ### Wrap Up
 
