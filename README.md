@@ -468,7 +468,7 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 
 27. Okay we have data now! Woo! But wow, look at all that data we have! For one activity, we have a fair amount of data associated with it. Now we just need to make sure we display (voice) it in a meaningful manner.
 
-28. [Here's what we should be looking like at the end of this section](https://github.com/kevinguebert/alexa-strava/blob/5fed13d87d89017ad9580578739b87dc4ad6fb3d/app.js)
+28. [Here's what we should be looking like at the end of this section](https://github.com/kevinguebert/alexa-strava/blob/899110488a35a68f1a1791516bc23fdd67c812dd/app.js)
 
 ### Returning Responses
 
