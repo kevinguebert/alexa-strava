@@ -727,4 +727,11 @@ With that knowledge, we can move forward!
 
 ### Wrap Up
 
-Woo!
+We finally made it to the end of the first tutorial! It took a while, we may have run into some issues, but we figured it out and have out first version ready to go!
+
+Here are some things that we missed and will be covering later:
+
+  - Voice Design Best Practices and Requirements: Amazon has required intents we did not touch such as the AMAZON.HelpIntent and AMAZON.StopIntent. These help direct the user in both those instances - if they need help or they want to exit
+  - We only have on path! What about that diagram from above, motivational text? This tutorial was getting pretty lengthy, now that we have the setup done, we can iterate faster next time!
+
+Be on the lookout for the next step soon! In the mean time, feel free to [raise an issue](https://github.com/kevinguebert/alexa-strava/issues), [ask question to me on Twitter](https://twitter.com/kevinguebert), or drop me an email at kevin.guebert@gmail.com. Until then!
