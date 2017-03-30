@@ -591,6 +591,7 @@ With that knowledge, we can move forward!
 
     Now all we need to do is convert the seconds we have to milliseconds and we will be good to go.
 
+
     ```
     activity_elapsed_time = "Time: " + timeToHuman(convert(activity.elapsed_time).from('s').to('ms')) + ". ";
     ```
@@ -712,7 +713,7 @@ With that knowledge, we can move forward!
       });
     ```
 
-18. Yay! Look as us go! It looks like we are good to go, let's go ahead and test it out in our simulator!
+18. Yay! Look as us go! It looks like we are good to go, let's go ahead and test it out in our simulator! Restart your terminal instance of `node index.js` with a quick Ctrl/Cmd-C.
 
 19. Head back over to the Developer Amazon site and go to the "Test" tab on the left hand side. Scroll on down to "Service Simulator" and we are going to type in a sample phrase. "Latest Activity." When you hit "Ask Strava" hopefully you should get a successful Service Response! Go ahead and click the "Listen" button to actually hear Alexa!
 
