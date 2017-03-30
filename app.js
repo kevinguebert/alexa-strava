@@ -1,6 +1,5 @@
 var express    = require("express");
 var alexa      = require("alexa-app");
-var http       = require('http');
 var dotenv     = require('dotenv');
 var bodyParser = require("body-parser");
 var convert    = require('convert-units')
