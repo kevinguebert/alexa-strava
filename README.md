@@ -33,16 +33,16 @@ Strava is the running/biking/swimming app that I use on a daily basis to record 
 
 ### Strava + Alexa
 
-##### What are we building?
+#### What are we building?
 
 In this tutorial series we are going to walk through all the steps in creating and (hopefully) publishing an Alexa app that utilizes the API provided by Strava. You may be thinking "wait, isn't Strava for during an activity like tracking a run?" Yes and no. Yes, it is definitely **the best** resource for tracking during an activity, but we are not going to use those features. A great part of Strava is the data analytics and social features that come with it. From pace to heart race to distance to KOM/QOM (King/Queen of the Mountain) to Course Record (CR) to Personal Records (PR) to competing against your friends and joining clubs, Strava helps you stay motivated and engaged even when you are not out doing an activity.
 
 Here is the tutorial series outline for us:
 
 1. [Setup & Activity Retrieval with Alexa](https://github.com/kevinguebert/alexa-strava#strava--alexa)
-2. Intents and Actions - Adding more features
-3. Account linking with Alexa & Strava
-4. App Submission
+2. Intents and Actions - Adding more features (Stay tuned)
+3. Account linking with Alexa & Strava (Stay tuned)
+4. App Submission (Stay tuned)
 
 ### Prerequisites
 
@@ -99,7 +99,6 @@ Well I think that's everything on the list, let's get started!
     var bodyParser = require("body-parser");
     var http       = require('http');
     var dotenv     = require('dotenv');
-    var moment     = require('moment');
     var convert    = require('convert-units')
     ```
 
@@ -122,7 +121,6 @@ Well I think that's everything on the list, let's get started!
     var alexaApp = new alexa.app("strava");
         alexaApp.express(app, "/echo/");
 
-
     app.listen(process.env.port || 5000);
     ```
 
@@ -142,7 +140,6 @@ Well I think that's everything on the list, let's get started!
     var alexa      = require("alexa-app");
     var http       = require('http');
     var dotenv     = require('dotenv');
-    var moment     = require('moment');
     var convert    = require('convert-units')
 
     var app = express();
@@ -197,7 +194,7 @@ For this section, we are going to *quickly* walk through the steps of getting yo
 
 4. With those fields filled out, go ahead and click on "Save". **Note** - if you get problems with using the word *Strava* as your name, it's because it's already taken. Name it however you like.
 
-5. We are going to skip the **Interaction Model* section for now and come back to that later.
+5. We are going to skip the **Interaction Model** section for now and come back to that later.
 
 6. For **Configuration**, we are going to do the following:
 
@@ -244,7 +241,7 @@ Now that out base application is up and running, it's time to get situated with 
 
   - **Application Name**: Strava Alexa
   - **Website**: If you have a personal website, use that! I'm just going to use mine at [http://kevinguebert.com](http://www.kevinguebert.com)
-  - **Application Description:**: Strava on Alexa
+  - **Application Description:** Strava on Alexa
   - **Authorization Callback Domain:** For now, we are going to use the same website as above: [kevinguebert.com](http://www.kevinguebert.com)
 
 ![Creation](https://github.com/kevinguebert/alexa-strava/blob/master/img/Strava-Create.png?raw=true)
@@ -297,12 +294,6 @@ That means our intents and utterances will look pretty simple:
   "intents": [
     {
       "intent": "GetLastestActivity"
-    },
-    {
-      "intent": "AMAZON.HelpIntent"
-    },
-    {
-      "intent": "AMAZON.StopIntent"
     }
   ]
 }
@@ -330,9 +321,42 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 
 ### Sending Requests
 
-1. To start sending requests to Strava we need to do 1 thing first.
+1. To start sending requests to Strava we need to do 2 things first.
 
-    - Use a handy-dandy npm package to help us out in sending these requests
+    - Authorize ourselves to be able to send requests
+    - Install a handy-dandy npm package to help us out in sending these requests
+    - Let's start with authorization
+
+2. Strava uses oauth as it's authorization resource. We will be going into what that means and how to implement it into our Alexa app in a following tutorial, but today, we still need to authorize our Strava account to be able to be accessed by our Strava application.
+
+  What does that mean? Well you know how whenever you go and "Sign in with Facebook" on some websites, it redirects you temporarily to Facebook where you click "Allow" for that application? That's what we are doing, but in a simpler way to get started.
+
+3. To authorize our account to for our application to use, we need a couple things:
+
+    - A personal Strava account (I hope you have one by now)
+    - Our Application Client ID
+    - Our Application Redirect URL
+
+  These can all be found on that "Manage Your Application" page in the Strava Developer Lab.
+
+4. With those pieces of information on hand, we are going to craft a url. It should look something like this:
+
+    ```
+    https://www.strava.com/oauth/authorize?client_id=CLIENTID&response_type=code&redirect_uri=REDIRECTURL&scope=public&state=mystate&approval_prompt=force#_=_1
+    ```
+
+    Please Note: Make sure to change the CLIENTID and REDIRECTURL to be the ones in your application!
+
+5. With that URL created, open up your favorite web browser and copy and paste that in there. You should get something that looks like this:
+
+  ![Auth](https://github.com/kevinguebert/alexa-strava/blob/master/img/auth.png?raw=true)
+
+6. Go ahead and click "Authorize" and it will:
+
+    - Authorize your account
+    - Redirect you to your REDIRECT URL
+
+    Alright perfect! Our profile and our application are now in sync.
 
 8. Head back over to your favorite text editor. We are going to work on using our Client Secret and Client Access Tokens to send requests.
 
@@ -342,8 +366,8 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
 
     ```
     STRAVA_ACCESS_TOKEN=INSERT_YOUR_TOKEN_HERE
-    STRAVA_CLIENT_ID=15134
-    STRAVA_REDIRECT_URI=kevinguebert.com
+    STRAVA_CLIENT_ID=INSERT_CLIENT_ID
+    STRAVA_REDIRECT_URI=INSERT_REDIRECT_URL
     ```
 
 11. With our tokens saved and set, we now need to load them into our application. Right after `var app = express();` go ahead and add:
@@ -400,12 +424,12 @@ As you can see - fairly simple. We have 1 intent `GetLastestActivity` with a cou
     Let's review the above code real quick.
 
       - We send a request to Alexa with the intent `GetLastestActivity`
-      - Our code then handles this request which in turns sends a request to Strava for Athlete ID: 9503898 for 1 activity on one page
+      - Our code then handles this request which in turns sends a request to Strava for 1 activity on one page
       - We have a completion function that is called when finished that has `err` and `activities` as parameters
 
 20. With this knowledge of `err` and `activities` we can move forward with returning a response.
 
-21. As good software developers that we are, let's handle the `err` situation first. Well, so let's think about what the error scenarios can be.
+21. As good software developers that we are, let's handle the `err` situation first. But first let's think about what the error scenarios can be.
 
     - Our request fails
     - The Athlete doesn't exist
