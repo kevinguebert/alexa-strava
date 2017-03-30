@@ -564,27 +564,27 @@ With that knowledge, we can move forward!
     - Pass the time in as milliseconds and it outputs a human understandable time.
 
       ```
-        function timeToHuman (milliseconds) {
-          var elapsed = "";
-          milliseconds = new Date(milliseconds);
-          var days = milliseconds.getUTCDate()-1;
-          var hours = milliseconds.getUTCHours();
-          var minutes = milliseconds.getUTCMinutes();
-          var seconds = milliseconds.getUTCSeconds();
-          if(days > 0) {
-            elapsed += milliseconds.getUTCDate()-1 + " days, ";
-          }
-
-          if(hours > 0) {
-            elapsed += milliseconds.getUTCHours() + " hours, ";
-          }
-
-          if(minutes > 0) {
-            elapsed += milliseconds.getUTCMinutes() + " minutes, ";
-          }
-          elapsed += milliseconds.getUTCSeconds() + " seconds";
-          return elapsed;
+      function timeToHuman (milliseconds) {
+        var elapsed = "";
+        milliseconds = new Date(milliseconds);
+        var days = milliseconds.getUTCDate()-1;
+        var hours = milliseconds.getUTCHours();
+        var minutes = milliseconds.getUTCMinutes();
+        var seconds = milliseconds.getUTCSeconds();
+        if(days > 0) {
+          elapsed += milliseconds.getUTCDate()-1 + " days, ";
         }
+
+        if(hours > 0) {
+          elapsed += milliseconds.getUTCHours() + " hours, ";
+        }
+
+        if(minutes > 0) {
+          elapsed += milliseconds.getUTCMinutes() + " minutes, ";
+        }
+        elapsed += milliseconds.getUTCSeconds() + " seconds";
+        return elapsed;
+      }
     ```
 
     - If you inspect the code above, you can see it is checking for days, hours, minutes, and seconds, and adding it to a string to output it nicely. Thanks function!
