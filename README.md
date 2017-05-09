@@ -37,13 +37,6 @@ Strava is the running/biking/swimming app that I use on a daily basis to record 
 
 In this tutorial series we are going to walk through all the steps in creating and (hopefully) publishing an Alexa app that utilizes the API provided by Strava. You may be thinking "wait, isn't Strava for during an activity like tracking a run?" Yes and no. Yes, it is definitely **the best** resource for tracking during an activity, but we are not going to use those features. A great part of Strava is the data analytics and social features that come with it. From pace to heart race to distance to KOM/QOM (King/Queen of the Mountain) to Course Record (CR) to Personal Records (PR) to competing against your friends and joining clubs, Strava helps you stay motivated and engaged even when you are not out doing an activity.
 
-Here is the tutorial series outline for us:
-
-1. [Setup & Activity Retrieval with Alexa](https://github.com/kevinguebert/alexa-strava#strava--alexa)
-2. Intents and Actions - Adding more features (Stay tuned)
-3. Account linking with Alexa & Strava (Stay tuned)
-4. App Submission (Stay tuned)
-
 ### Prerequisites
 
 First off, welcome! With this tutorial I hope to walk you through all the steps of creating an Alexa app. However, I am assuming some background in programming and some familiarity with Javascript (our language of choice). If you know python, maybe in the future we can create a similar series, but for now we are sticking with Javascript.
