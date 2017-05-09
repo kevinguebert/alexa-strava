@@ -1,4 +1,4 @@
-# Build a Strava Alexa App - Part 1
+# Build a Strava Alexa App 
 
 Hello and Welcome! In this tutorial series we are going to walk through the steps of creating a new Alexa App using [Strava](https://www.strava.com). Let's first get some basic terminology down, introduce you to what we are going to build, and then we will dive right into building!
 
